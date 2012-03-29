@@ -1,0 +1,26 @@
+---
+abstract: 'Generate metadata for a module'
+author:
+  - 'Steven Haryanto <stevenharyanto@gmail.com>'
+build_requires:
+  Module::Build: 0.3601
+configure_requires:
+  Module::Build: 0.3601
+dynamic_config: 0
+generated_by: 'Dist::Zilla version 4.300006, CPAN::Meta::Converter version 2.113640'
+license: perl
+meta-spec:
+  url: http://module-build.sourceforge.net/META-spec-v1.4.html
+  version: 1.4
+name: Perinci-Gen-ForModule
+requires:
+  Exporter::Lite: 0
+  Rinci: 1.1.0
+  SHARYANTO::Array::Util: 0
+  SHARYANTO::Package::Util: 0.20
+  Test::More: 0.96
+  perl: 5.010000
+resources:
+  homepage: http://search.cpan.org/dist/Perinci-Gen-ForModule/
+  repository: http://github.com/sharyanto/perl-Perinci-Gen-ForModule
+version: 0.03

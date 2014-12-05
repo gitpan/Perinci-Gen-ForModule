@@ -2,7 +2,8 @@ NAME
     Perinci::Gen::ForModule - Generate metadata for a module
 
 VERSION
-    version 0.03
+    This document describes version 0.04 of Perinci::Gen::ForModule (from
+    Perl distribution Perinci-Gen-ForModule), released on 2014-12-05.
 
 SYNOPSIS
     In Foo/Bar.pm:
@@ -19,17 +20,6 @@ SYNOPSIS
 
     Now Foo::Bar has metadata stored in %Foo::Bar::SPEC.
 
-DESCRIPTION
-    This module provides gen_meta_for_module().
-
-    This module uses Log::Any for logging framework.
-
-    This module has Rinci metadata.
-
-FAQ
-SEE ALSO
-    Perinci, Rinci
-
 FUNCTIONS
   gen_meta_for_module(%args) -> [status, msg, result, meta]
     Generate metadata for a module.
@@ -38,12 +28,12 @@ FUNCTIONS
     "traditional" Perl module which do not have any. Currently, only a plain
     and generic package and function metadata are generated.
 
-    The resulting metadata will be put in %::SPEC. Functions that already
-    have metadata in the %SPEC will be skipped. The metadata will have C
-    property set to true, C set to C, and C set to C ["any" =>
-    {schema=>'any', pos=>0, greedy=>1}]}>. In the future, function's
-    arguments (and other properties) will be parsed from POD (and other
-    indicators).
+    The resulting metadata will be put in %<PACKAGE>::SPEC. Functions that
+    already have metadata in the %SPEC will be skipped. The metadata will
+    have "result_naked" property set to true, "args_as" set to "array", and
+    "args" set to "{args =" ["any" => {schema=>'any', pos=>0, greedy=>1}]}>.
+    In the future, function's arguments (and other properties) will be
+    parsed from POD (and other indicators).
 
     Arguments ('*' denotes required arguments):
 
@@ -58,28 +48,51 @@ FUNCTIONS
 
         If specified, only include these subs.
 
-    *   load* => *bool* (default: 1)
+    *   load => *bool* (default: 1)
 
         Whether to load the module using require().
 
-    *   module* => *str*
+    *   module => *str*
 
         The module name.
 
     Return value:
 
-    Returns an enveloped result (an array). First element (status) is an
-    integer containing HTTP status code (200 means OK, 4xx caller error, 5xx
-    function error). Second element (msg) is a string containing error
-    message, or 'OK' if status is 200. Third element (result) is optional,
-    the actual result. Fourth element (meta) is called result metadata and
-    is optional, a hash that contains extra information.
+    Returns an enveloped result (an array).
+
+    First element (status) is an integer containing HTTP status code (200
+    means OK, 4xx caller error, 5xx function error). Second element (msg) is
+    a string containing error message, or 'OK' if status is 200. Third
+    element (result) is optional, the actual result. Fourth element (meta)
+    is called result metadata and is optional, a hash that contains extra
+    information.
+
+     (any)
+
+SEE ALSO
+    Perinci, Rinci
+
+HOMEPAGE
+    Please visit the project's homepage at
+    <https://metacpan.org/release/Perinci-Gen-ForModule>.
+
+SOURCE
+    Source repository is at
+    <https://github.com/perlancar/perl-Perinci-Gen-ForModule>.
+
+BUGS
+    Please report any bugs or feature requests on the bugtracker website
+    <https://rt.cpan.org/Public/Dist/Display.html?Name=Perinci-Gen-ForModule
+    >
+
+    When submitting a bug or request, please include a test-file or a patch
+    to an existing test-file that illustrates the bug or desired feature.
 
 AUTHOR
-    Steven Haryanto <stevenharyanto@gmail.com>
+    perlancar <perlancar@cpan.org>
 
 COPYRIGHT AND LICENSE
-    This software is copyright (c) 2012 by Steven Haryanto.
+    This software is copyright (c) 2014 by perlancar@cpan.org.
 
     This is free software; you can redistribute it and/or modify it under
     the same terms as the Perl 5 programming language system itself.

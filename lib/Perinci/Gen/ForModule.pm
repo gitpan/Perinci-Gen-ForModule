@@ -1,17 +1,19 @@
 package Perinci::Gen::ForModule;
 
-use 5.010;
+our $DATE = '2014-12-05'; # DATE
+our $VERSION = '0.04'; # VERSION
+
+use 5.010001;
 use strict;
 use warnings;
 
 use Exporter::Lite;
 use Log::Any '$log';
+use Scalar::Util qw(reftype);
 use SHARYANTO::Array::Util   qw(match_array_or_regex);
-use SHARYANTO::Package::Util qw(package_exists list_package_contents);
+use Package::MoreUtil qw(package_exists list_package_contents);
 
 our @EXPORT_OK = qw(gen_meta_for_module);
-
-our $VERSION = '0.03'; # VERSION
 
 our %SPEC;
 
@@ -114,7 +116,7 @@ sub gen_meta_for_module {
 
     # generate subroutine metadatas
 
-    for my $sub (sort grep {ref($content{$_}) eq 'CODE'} keys %content) {
+    for my $sub (sort grep {reftype($content{$_}) eq 'CODE'} keys %content) {
         $log->tracef("Adding meta for subroutine %s ...", $sub);
         if (defined($inc) && !match_array_or_regex($sub, $inc)) {
             $log->info("Not creating metadata for sub $module\::$sub: ".
@@ -156,9 +158,11 @@ sub gen_meta_for_module {
 1;
 #ABSTRACT: Generate metadata for a module
 
-
 __END__
+
 =pod
+
+=encoding UTF-8
 
 =head1 NAME
 
@@ -166,7 +170,7 @@ Perinci::Gen::ForModule - Generate metadata for a module
 
 =head1 VERSION
 
-version 0.03
+This document describes version 0.04 of Perinci::Gen::ForModule (from Perl distribution Perinci-Gen-ForModule), released on 2014-12-05.
 
 =head1 SYNOPSIS
 
@@ -184,20 +188,6 @@ In another script:
 
 Now Foo::Bar has metadata stored in %Foo::Bar::SPEC.
 
-=head1 DESCRIPTION
-
-This module provides gen_meta_for_module().
-
-This module uses L<Log::Any> for logging framework.
-
-This module has L<Rinci> metadata.
-
-=head1 FAQ
-
-=head1 SEE ALSO
-
-L<Perinci>, L<Rinci>
-
 =head1 FUNCTIONS
 
 
@@ -209,10 +199,10 @@ This function can be used to automatically generate Rinci metadata for a
 "traditional" Perl module which do not have any. Currently, only a plain and
 generic package and function metadata are generated.
 
-The resulting metadata will be put in %::SPEC. Functions that already
+The resulting metadata will be put in %<PACKAGE>::SPEC. Functions that already
 have metadata in the %SPEC will be skipped. The metadata will have
-C property set to true, C set to C, and C
-set to C ["any" => {schema=>'any', pos=>0, greedy=>1}]}>. In the
+C<result_naked> property set to true, C<args_as> set to C<array>, and C<args>
+set to C<{args => ["any" => {schema=>'any', pos=>0, greedy=>1}]}>. In the
 future, function's arguments (and other properties) will be parsed from POD (and
 other indicators).
 
@@ -231,11 +221,11 @@ their names).
 
 If specified, only include these subs.
 
-=item * B<load>* => I<bool> (default: 1)
+=item * B<load> => I<bool> (default: 1)
 
 Whether to load the module using require().
 
-=item * B<module>* => I<str>
+=item * B<module> => I<str>
 
 The module name.
 
@@ -243,18 +233,46 @@ The module name.
 
 Return value:
 
-Returns an enveloped result (an array). First element (status) is an integer containing HTTP status code (200 means OK, 4xx caller error, 5xx function error). Second element (msg) is a string containing error message, or 'OK' if status is 200. Third element (result) is optional, the actual result. Fourth element (meta) is called result metadata and is optional, a hash that contains extra information.
+Returns an enveloped result (an array).
+
+First element (status) is an integer containing HTTP status code
+(200 means OK, 4xx caller error, 5xx function error). Second element
+(msg) is a string containing error message, or 'OK' if status is
+200. Third element (result) is optional, the actual result. Fourth
+element (meta) is called result metadata and is optional, a hash
+that contains extra information.
+
+ (any)
+
+=head1 SEE ALSO
+
+L<Perinci>, L<Rinci>
+
+=head1 HOMEPAGE
+
+Please visit the project's homepage at L<https://metacpan.org/release/Perinci-Gen-ForModule>.
+
+=head1 SOURCE
+
+Source repository is at L<https://github.com/perlancar/perl-Perinci-Gen-ForModule>.
+
+=head1 BUGS
+
+Please report any bugs or feature requests on the bugtracker website L<https://rt.cpan.org/Public/Dist/Display.html?Name=Perinci-Gen-ForModule>
+
+When submitting a bug or request, please include a test-file or a
+patch to an existing test-file that illustrates the bug or desired
+feature.
 
 =head1 AUTHOR
 
-Steven Haryanto <stevenharyanto@gmail.com>
+perlancar <perlancar@cpan.org>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2012 by Steven Haryanto.
+This software is copyright (c) 2014 by perlancar@cpan.org.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
 
 =cut
-
